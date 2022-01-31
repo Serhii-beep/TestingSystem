@@ -40,7 +40,7 @@ namespace TestingSystem.PLL
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            //Hello test push
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
