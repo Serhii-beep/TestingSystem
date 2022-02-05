@@ -10,6 +10,7 @@ namespace TestingSystem.DAL.Configurations
         {
             builder.Property(e => e.CorrectAnswerId).IsRequired();
             builder.Property(e => e.TestSetId).IsRequired();
+            builder.Property(e => e.QuestionId).IsRequired();
 
             builder.HasOne(t => t.TestSet)
                 .WithMany(ts => ts.Tests)

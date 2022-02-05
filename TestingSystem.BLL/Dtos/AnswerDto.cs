@@ -1,10 +1,9 @@
-﻿namespace TestingSystem.DAL.Models
+﻿namespace TestingSystem.BLL.Dtos
 {
-    public class Answer
+    public class AnswerDto
     {
         public int Id { get; set; }
         public string AnswerText { get; set; }
         public int TestId { get; set; }
-        public virtual Test Test { get; set; }
     }
 }
