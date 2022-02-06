@@ -7,6 +7,7 @@ namespace TestingSystem.DAL.Models
         public int Id { get; set; }
         public int TestCategoryId { get; set; }
         public int TestLevelId { get; set; }
+        public string Description { get; set; }
         public virtual TestCategory TestCategory { get; set; }
         public virtual TestLevel TestLevel { get; set; }
         public virtual ICollection<Test> Tests { get; set; }

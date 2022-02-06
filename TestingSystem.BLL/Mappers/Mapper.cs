@@ -31,7 +31,10 @@ namespace TestingSystem.BLL.Mappers
             List<TestSetDto> result = new List<TestSetDto>();
             foreach(var testSet in testSetsEntity)
             {
-                result.Add(new TestSetDto() { Id = testSet.Id, TestCategoryId = testSet.TestCategoryId, TestLevelId = testSet.TestLevelId });
+                result.Add(new TestSetDto() { Id = testSet.Id, 
+                    TestCategoryId = testSet.TestCategoryId, 
+                    TestLevelId = testSet.TestLevelId,
+                    Description = testSet.Description });
             }
             return result;
         }
