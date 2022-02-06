@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingSystem.DAL", "TestingSystem.DAL\TestingSystem.DAL.csproj", "{307AB826-3FF7-4E0C-A929-FCE4FF7A2A3C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingSystem.PLL", "TestingSystem.PLL\TestingSystem.PLL.csproj", "{7EB10E4D-7D16-424C-8B0D-8B482BC926D5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingSystem.DAL", "TestingSystem.DAL\TestingSystem.DAL.csproj", "{307AB826-3FF7-4E0C-A929-FCE4FF7A2A3C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingSystem.BLL", "TestingSystem.BLL\TestingSystem.BLL.csproj", "{FC6968C9-1382-49FA-8F7B-824CA7B135C7}"
 EndProject
