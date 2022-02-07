@@ -10,7 +10,7 @@ namespace TestingSystem.DAL.Configurations
         {
             builder.Property(e => e.CorrectAnswerId).IsRequired();
             builder.Property(e => e.TestSetId).IsRequired();
-            builder.Property(e => e.QuestionId).IsRequired();
+
 
             builder.HasOne(t => t.TestSet)
                 .WithMany(ts => ts.Tests)
@@ -18,10 +18,6 @@ namespace TestingSystem.DAL.Configurations
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Tests_TestSets");
 
-            builder.HasOne(t => t.Question)
-                .WithOne(q => q.Test)
-                .HasForeignKey<Question>(q => q.TestId)
-                .HasConstraintName("FK_Tests_Questions");
         }
     }
 }
