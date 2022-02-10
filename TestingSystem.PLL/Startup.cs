@@ -29,7 +29,13 @@ namespace TestingSystem.PLL
             services.AddScoped<TestCategoryService>();
             services.AddScoped<TestLevelService>();
             services.AddScoped<TestSetService>();
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllOrigins", builder =>
+                {
+                    builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,11 +51,10 @@ namespace TestingSystem.PLL
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors("AllOrigins");
             //Hello test push
             app.UseAuthorization();
 
-            app.UseCors(builder => builder.WithOrigins("https://localhost:8080").AllowAnyMethod().AllowAnyHeader()
-                .AllowCredentials());
 
             app.UseEndpoints(endpoints =>
             {
