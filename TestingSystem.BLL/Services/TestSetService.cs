@@ -58,5 +58,23 @@ namespace TestingSystem.BLL.Services
             }
             return EntityOperationResult<List<TestSetDto>>.Success(result);
         }
+
+        public EntityOperationResult<List<TestSetDto>> GetTestsByLevelCategory(int levelId, int categoryId)
+        {
+            List<TestSetDto> result = new List<TestSetDto>();
+            using(var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
+            {
+                if (unitOfWork.TestLevel.GetTestLevelById(levelId) == null)
+                {
+                    return EntityOperationResult<List<TestSetDto>>.Failture("No test level with such Id");
+                }
+                if (unitOfWork.TestCategory.GetTestCategoryById(categoryId) == null)
+                {
+                    return EntityOperationResult<List<TestSetDto>>.Failture("No test category with such Id");
+                }
+                result = unitOfWork.TestSet.GetAllTestSets().Where(ts => ts.TestLevelId == levelId && ts.TestCategoryId == categoryId).ToDtoRange();
+            }
+            return EntityOperationResult<List<TestSetDto>>.Success(result);
+        }
     }
 }

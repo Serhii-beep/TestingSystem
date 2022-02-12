@@ -40,5 +40,13 @@ namespace TestingSystem.PLL.Controllers
             var result = _testSetService.GetTestSetsByLevel(testLevelId);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
+
+        [HttpGet]
+        [Route("getByLevelCategory/levelId={testLevelId}&categoryId={testCategoryId}")]
+        public ActionResult<EntityOperationResult<IEnumerable<TestSetDto>>> GetTestSetsByLevelCategory(int testLevelId, int testCategoryId)
+        {
+            var result = _testSetService.GetTestsByLevelCategory(testLevelId, testCategoryId);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
     }
 }
