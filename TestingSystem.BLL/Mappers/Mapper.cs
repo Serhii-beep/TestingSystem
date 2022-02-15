@@ -38,5 +38,46 @@ namespace TestingSystem.BLL.Mappers
             }
             return result;
         }
+
+        public static List<TestDto> ToDtoRange(this IEnumerable<Test> testsEntity)
+        {
+            List<TestDto> result = new List<TestDto>();
+            foreach(var test in testsEntity)
+            {
+                result.Add(new TestDto()
+                {
+                    Id = test.Id,
+                    CorrectAnswerId = test.CorrectAnswerId,
+                    TestSetId = test.TestSetId
+                });
+            }
+            return result;
+        }
+
+        public static List<AnswerDto> ToDtoRange(this IEnumerable<Answer> answersEntity)
+        {
+            List<AnswerDto> result = new List<AnswerDto>();
+            foreach(var answer in answersEntity)
+            {
+                result.Add(new AnswerDto()
+                {
+                    Id = answer.Id,
+                    AnswerText = answer.AnswerText,
+                    TestId = answer.TestId
+                });
+            }
+            return result;
+        }
+
+        public static QuestionDto ToDto(this Question question)
+        {
+            return new QuestionDto()
+            {
+                Id = question.Id,
+                TestId = question.TestId,
+                QuestionText = question.QuestionText,
+                Points = question.Points
+            };
+        }
     }
 }

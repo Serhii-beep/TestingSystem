@@ -29,6 +29,7 @@ namespace TestingSystem.PLL
             services.AddScoped<TestCategoryService>();
             services.AddScoped<TestLevelService>();
             services.AddScoped<TestSetService>();
+            services.AddScoped<TestService>();
             services.AddCors(options =>
             {
                 options.AddPolicy("AllOrigins", builder =>
