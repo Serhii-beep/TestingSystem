@@ -20,23 +20,41 @@ namespace TestingSystem.BLL.Services
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
-        public EntityOperationResult<List<TestDto>> GetTests(int testSetId)
+        public EntityOperationResult<List<TestReadDto>> GetTests(int testSetId)
         {
-            List<TestDto> result = new List<TestDto>();
+            List<TestReadDto> result = new List<TestReadDto>();
             using(var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
             {
                 if(unitOfWork.TestSet.GetTestSetById(testSetId) == null)
                 {
-                    return EntityOperationResult<List<TestDto>>.Failture("No test set with such Id");
+                    return EntityOperationResult<List<TestReadDto>>.Failture("No test set with such Id");
                 }
                 result = unitOfWork.Test.GetAllTests().Where(t => t.TestSetId == testSetId).ToDtoRange();
                 JoinTestWithQuestion(result);
                 JoinTestWithAnswers(result);
             }
-            return EntityOperationResult<List<TestDto>>.Success(result);
+            return EntityOperationResult<List<TestReadDto>>.Success(result);
         }
 
-        private void JoinTestWithQuestion(TestDto test)
+        public EntityOperationResult<bool> CheckAnswer(int testId, int answerId)
+        {
+            bool result = false;
+            using(var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
+            {
+                if(unitOfWork.Test.GetTestById(testId) == null)
+                {
+                    return EntityOperationResult<bool>.Failture("No tes with such Id");
+                }
+                if(unitOfWork.Answer.GetAnswerById(answerId) == null)
+                {
+                    return EntityOperationResult<bool>.Failture("No answer with such Id");
+                }
+                result = unitOfWork.Test.GetTestById(testId).CorrectAnswerId == answerId;
+            }
+            return EntityOperationResult<bool>.Success(result);
+        }
+
+        private void JoinTestWithQuestion(TestReadDto test)
         {
             using(var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
             {
@@ -45,7 +63,7 @@ namespace TestingSystem.BLL.Services
             }
         }
 
-        private void JoinTestWithQuestion(IEnumerable<TestDto> tests)
+        private void JoinTestWithQuestion(IEnumerable<TestReadDto> tests)
         {
             foreach(var test in tests)
             {
@@ -53,7 +71,7 @@ namespace TestingSystem.BLL.Services
             }
         }
 
-        private void JoinTestWithAnswers(TestDto test)
+        private void JoinTestWithAnswers(TestReadDto test)
         {
             using(var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
             {
@@ -62,7 +80,7 @@ namespace TestingSystem.BLL.Services
             }
         }
 
-        private void JoinTestWithAnswers(List<TestDto> tests)
+        private void JoinTestWithAnswers(List<TestReadDto> tests)
         {
             foreach(var test in tests)
             {

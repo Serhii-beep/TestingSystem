@@ -39,15 +39,14 @@ namespace TestingSystem.BLL.Mappers
             return result;
         }
 
-        public static List<TestDto> ToDtoRange(this IEnumerable<Test> testsEntity)
+        public static List<TestReadDto> ToDtoRange(this IEnumerable<Test> testsEntity)
         {
-            List<TestDto> result = new List<TestDto>();
+            List<TestReadDto> result = new List<TestReadDto>();
             foreach(var test in testsEntity)
             {
-                result.Add(new TestDto()
+                result.Add(new TestReadDto()
                 {
                     Id = test.Id,
-                    CorrectAnswerId = test.CorrectAnswerId,
                     TestSetId = test.TestSetId
                 });
             }

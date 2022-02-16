@@ -19,9 +19,17 @@ namespace TestingSystem.PLL.Controllers
 
         [HttpGet]
         [Route("getTests/{testSetId}")]
-        public ActionResult<EntityOperationResult<List<TestDto>>> GetTests(int testSetId)
+        public ActionResult<EntityOperationResult<List<TestReadDto>>> GetTests(int testSetId)
         {
             var result = _testService.GetTests(testSetId);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpGet]
+        [Route("checkAnswer/{testId}&{answerId}")]
+        public ActionResult<EntityOperationResult<bool>> CheckAnswer(int testId, int answerId)
+        {
+            var result = _testService.CheckAnswer(testId, answerId);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }
