@@ -16,6 +16,7 @@ namespace TestingSystem.DAL.UnitOfWork
         public ITestCategoryRepository TestCategory { get; }
         public ITestLevelRepository TestLevel { get; }
         public ITestSetRepository TestSet { get; }
+        public IUserRepository User { get; }
         public UnitOfWork(TestingSystemDbContext context)
         {
             _context = context;
@@ -25,6 +26,19 @@ namespace TestingSystem.DAL.UnitOfWork
             TestCategory = new TestCategoryRepository(_context);
             TestLevel = new TestLevelRepository(_context);
             TestSet = new TestSetRepository(_context);
+            User = new UserRepository(_context);
+        }
+
+        public void SaveChanges()
+        {
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         protected virtual void Dispose(bool disposing)

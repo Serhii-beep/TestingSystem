@@ -78,5 +78,27 @@ namespace TestingSystem.BLL.Mappers
                 Points = question.Points
             };
         }
+
+        public static UserDto ToDto(this User user)
+        {
+            return new UserDto()
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Password = user.Password,
+                Role = user.Role
+            };
+        }
+
+        public static User ToModel(this UserDto userDto)
+        {
+            return new User()
+            {
+                Id = userDto.Id,
+                UserName = userDto.UserName,
+                Password = userDto.Password,
+                Role = userDto.Role
+            };
+        }
     }
 }

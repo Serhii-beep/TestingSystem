@@ -4,6 +4,7 @@ using TestingSystem.BLL.Services;
 using TestingSystem.BLL.Dtos;
 using TestingSystem.BLL;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TestingSystem.PLL.Controllers
 {
@@ -19,6 +20,7 @@ namespace TestingSystem.PLL.Controllers
             _testCategoryService = testCategoryService;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet]
         [Route("getAll")]
         public ActionResult<EntityOperationResult<IEnumerable<TestCategoryDto>>> GetAllTestCategories()

@@ -5,7 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using TestingSystem.BLL.Services;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using TestingSystem.BLL.JWTAuth;
 
 namespace TestingSystem.PLL
 {
@@ -22,6 +24,19 @@ namespace TestingSystem.PLL
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                        ValidateIssuerSigningKey = true
+                    };
+                });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TestingSystem.PLL", Version = "v1" });
@@ -30,6 +45,7 @@ namespace TestingSystem.PLL
             services.AddScoped<TestLevelService>();
             services.AddScoped<TestSetService>();
             services.AddScoped<TestService>();
+            services.AddScoped<UserService>();
             services.AddCors(options =>
             {
                 options.AddPolicy("AllOrigins", builder =>
@@ -54,6 +70,7 @@ namespace TestingSystem.PLL
             app.UseRouting();
             app.UseCors("AllOrigins");
             //Hello test push
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

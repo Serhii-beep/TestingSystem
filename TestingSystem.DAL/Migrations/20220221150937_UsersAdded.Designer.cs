@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestingSystem.DAL.DbContexts;
 
 namespace TestingSystem.DAL.Migrations
 {
     [DbContext(typeof(TestingSystemDbContext))]
-    partial class TestingSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220221150937_UsersAdded")]
+    partial class UsersAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

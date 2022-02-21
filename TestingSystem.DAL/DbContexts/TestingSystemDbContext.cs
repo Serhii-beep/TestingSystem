@@ -15,6 +15,7 @@ namespace TestingSystem.DAL.DbContexts
         public virtual DbSet<TestCategory> TestCategories { get; set; }
         public virtual DbSet<TestLevel> TestLevels { get; set; }
         public virtual DbSet<TestSet> TestSets { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         #endregion
 
@@ -35,6 +36,7 @@ namespace TestingSystem.DAL.DbContexts
             modelBuilder.ApplyConfiguration(new TestConfiguration());
             modelBuilder.ApplyConfiguration(new TestLevelConfiguration());
             modelBuilder.ApplyConfiguration(new TestSetConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
 
             #endregion
 
