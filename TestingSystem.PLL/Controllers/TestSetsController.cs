@@ -48,5 +48,30 @@ namespace TestingSystem.PLL.Controllers
             var result = _testSetService.GetTestsByLevelCategory(testLevelId, testCategoryId);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
+
+
+        [HttpDelete]
+        [Route("delete/testSetId={testSetId}")]
+        public ActionResult<EntityOperationResult<bool>> DeleteTestSet(int testSetId)
+        {
+            var result = _testSetService.DeleteTestSet(testSetId);
+            return result.IsSuccess ? NoContent() : BadRequest(result);
+        }
+
+        [HttpPost]
+        [Route("post")]
+        public ActionResult<EntityOperationResult<TestSetDto>> AddTestSet(TestSetDto testSetDto)
+        {
+            var result = _testSetService.AddTestSet(testSetDto);
+            return result.IsSuccess ? Ok(result) : BadRequest(result); // createdAtAction?
+        }
+
+        [HttpPut("{testSetId}")]
+        public ActionResult<EntityOperationResult<TestSetDto>> UpdateTestSet(int testSetId, TestSetDto testSetDto)
+        {
+            var result = _testSetService.UpdateTestSet(testSetId, testSetDto);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+        
     }
 }

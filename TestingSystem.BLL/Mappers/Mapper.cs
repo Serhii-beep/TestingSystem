@@ -9,7 +9,7 @@ namespace TestingSystem.BLL.Mappers
         public static List<TestCategoryDto> ToDtoRange(this IEnumerable<TestCategory> testCategoriesEntity)
         {
             List<TestCategoryDto> result = new List<TestCategoryDto>();
-            foreach(var testCategory in testCategoriesEntity)
+            foreach (var testCategory in testCategoriesEntity)
             {
                 result.Add(new TestCategoryDto() { Id = testCategory.Id, Name = testCategory.Name });
             }
@@ -29,12 +29,15 @@ namespace TestingSystem.BLL.Mappers
         public static List<TestSetDto> ToDtoRange(this IEnumerable<TestSet> testSetsEntity)
         {
             List<TestSetDto> result = new List<TestSetDto>();
-            foreach(var testSet in testSetsEntity)
+            foreach (var testSet in testSetsEntity)
             {
-                result.Add(new TestSetDto() { Id = testSet.Id, 
-                    TestCategoryId = testSet.TestCategoryId, 
+                result.Add(new TestSetDto()
+                {
+                    Id = testSet.Id,
+                    TestCategoryId = testSet.TestCategoryId,
                     TestLevelId = testSet.TestLevelId,
-                    Description = testSet.Description });
+                    Description = testSet.Description
+                });
             }
             return result;
         }
@@ -42,7 +45,7 @@ namespace TestingSystem.BLL.Mappers
         public static List<TestReadDto> ToDtoRange(this IEnumerable<Test> testsEntity)
         {
             List<TestReadDto> result = new List<TestReadDto>();
-            foreach(var test in testsEntity)
+            foreach (var test in testsEntity)
             {
                 result.Add(new TestReadDto()
                 {
@@ -56,7 +59,7 @@ namespace TestingSystem.BLL.Mappers
         public static List<AnswerDto> ToDtoRange(this IEnumerable<Answer> answersEntity)
         {
             List<AnswerDto> result = new List<AnswerDto>();
-            foreach(var answer in answersEntity)
+            foreach (var answer in answersEntity)
             {
                 result.Add(new AnswerDto()
                 {
@@ -98,6 +101,34 @@ namespace TestingSystem.BLL.Mappers
                 UserName = userDto.UserName,
                 Password = userDto.Password,
                 Role = userDto.Role
+            };
+        }
+        public static TestSet ToModel(this TestSetDto testSetDto)
+        {
+            return new TestSet()
+            {
+                Id = testSetDto.Id,
+                Description = testSetDto.Description,
+                TestLevelId = testSetDto.TestLevelId,
+                TestCategoryId = testSetDto.TestCategoryId
+            };
+        }
+
+        public static TestCategory ToModel(this TestCategoryDto testCategoryDto)
+        {
+            return new TestCategory()
+            {
+                Id = testCategoryDto.Id,
+                Name = testCategoryDto.Name
+            };
+        }
+
+        public static TestLevel ToModel(this TestLevelDto testLevelDto)
+        {
+            return new TestLevel()
+            {
+                Id = testLevelDto.Id,
+                DifficultyLevel = testLevelDto.DifficultyLevel
             };
         }
     }

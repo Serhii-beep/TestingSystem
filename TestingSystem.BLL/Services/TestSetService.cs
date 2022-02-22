@@ -4,7 +4,7 @@ using TestingSystem.DAL.UnitOfWork;
 using TestingSystem.DAL.Models;
 using System.Collections.Generic;
 using System.Linq;
-
+using System;
 namespace TestingSystem.BLL.Services
 {
     public class TestSetService
@@ -75,6 +75,94 @@ namespace TestingSystem.BLL.Services
                 result = unitOfWork.TestSet.GetAllTestSets().Where(ts => ts.TestLevelId == levelId && ts.TestCategoryId == categoryId).ToDtoRange();
             }
             return EntityOperationResult<List<TestSetDto>>.Success(result);
+        }
+
+        public EntityOperationResult<bool> DeleteTestSet(int testSetId)
+        {
+            bool result = false;
+
+            using(var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
+            {
+
+                if(unitOfWork.TestSet.GetTestSetById(testSetId) == null)
+                {
+                    return EntityOperationResult<bool>.Failture("No test set with such Id");
+                }
+                
+                unitOfWork.TestSet.DeleteTestSet(testSetId);
+
+                try
+                {
+                    unitOfWork.SaveChanges();
+                }
+                catch(Exception ex)
+                {
+                    return EntityOperationResult<bool>.Failture("Can`t save changes to storage. Error msg: " + ex.Message);
+                }
+                result = true;
+            }
+
+            return EntityOperationResult<bool>.Success(result);
+        }
+
+        public EntityOperationResult<TestSetDto> AddTestSet(TestSetDto testSetDto)
+        {
+            var result = testSetDto.ToModel();
+
+            using (var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
+            {
+                if (unitOfWork.TestLevel.GetTestLevelById(result.TestLevelId) == null)
+                {
+                    return EntityOperationResult<TestSetDto>.Failture("No test level with such id");
+                }
+                if (unitOfWork.TestCategory.GetTestCategoryById(result.TestCategoryId) == null)
+                {
+                    return EntityOperationResult<TestSetDto>.Failture("No category with such id");
+                }
+                
+                unitOfWork.TestSet.AddTestSet(result);
+
+                try
+                {
+                    unitOfWork.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    return EntityOperationResult<TestSetDto>.Failture("Can`t save changes to storage. Error msg: " + ex.Message);
+                }
+            }
+
+            return EntityOperationResult<TestSetDto>.Success(testSetDto);
+        }
+
+        public EntityOperationResult<TestSetDto> UpdateTestSet(int testSetId, TestSetDto testSetDto)
+        {
+
+            using (var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
+            {
+                if(testSetId != testSetDto.Id)
+                {
+                    return EntityOperationResult<TestSetDto>.Failture("Ids do not match");
+                }
+                if(unitOfWork.TestSet.GetTestSetById(testSetId) == null)
+                {
+                    return EntityOperationResult<TestSetDto>.Failture("No test set with such id");
+                }
+
+                unitOfWork.TestSet.UpdateTestSet(testSetDto.ToModel());
+
+                try
+                {
+                    unitOfWork.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    return EntityOperationResult<TestSetDto>.Failture("Can`t save changes to storage. Error msg: " + ex.Message);
+                }
+            }
+
+            return EntityOperationResult<TestSetDto>.Success(testSetDto);
+
         }
     }
 }

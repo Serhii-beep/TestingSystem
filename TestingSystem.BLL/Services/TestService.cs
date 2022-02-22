@@ -3,6 +3,7 @@ using TestingSystem.BLL.Dtos;
 using TestingSystem.BLL.Mappers;
 using TestingSystem.DAL.UnitOfWork;
 using System.Linq;
+using System;
 
 namespace TestingSystem.BLL.Services
 {
@@ -36,6 +37,32 @@ namespace TestingSystem.BLL.Services
             return EntityOperationResult<List<TestReadDto>>.Success(result);
         }
 
+        public EntityOperationResult<bool> DeleteTest(int testId)
+        {
+            var result = false;
+            using(var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
+            {
+                if(unitOfWork.Test.GetTestById(testId) == null)
+                {
+                    return EntityOperationResult<bool>.Failture("No test with such id");
+                }
+
+                unitOfWork.Test.DeleteTest(testId);
+
+                try
+                {
+                    unitOfWork.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    return EntityOperationResult<bool>.Failture("Can`t save changes to storage. Error msg: " + ex.Message);
+                }
+                result = true;
+            }
+
+            return EntityOperationResult<bool>.Success(result);
+        }
+        
         public EntityOperationResult<bool> CheckAnswer(int testId, int answerId)
         {
             bool result = false;
@@ -43,7 +70,7 @@ namespace TestingSystem.BLL.Services
             {
                 if(unitOfWork.Test.GetTestById(testId) == null)
                 {
-                    return EntityOperationResult<bool>.Failture("No tes with such Id");
+                    return EntityOperationResult<bool>.Failture("No test with such Id");
                 }
                 if(unitOfWork.Answer.GetAnswerById(answerId) == null)
                 {

@@ -24,5 +24,29 @@ namespace TestingSystem.PLL.Controllers
             var result = _testLevelService.GetAllTestLevels();
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
+
+        [HttpDelete]
+        [Route("delete/testLevelId={testLevelId}")]
+        public ActionResult<EntityOperationResult<bool>> DeleteTestLevel(int testLevelId)
+        {
+            var result = _testLevelService.DeleteTestLevel(testLevelId);
+            return result.IsSuccess ? NoContent() : BadRequest(result);
+        }
+
+        [HttpPost]
+        [Route("post")]
+        public ActionResult<EntityOperationResult<TestLevelDto>> AddTestLevel(TestLevelDto testLevelDto)
+        {
+            var result = _testLevelService.AddTestLevel(testLevelDto);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPut]
+        [Route("put/{testLevelId}")]
+        public ActionResult<EntityOperationResult<TestLevelDto>> UpdateTestLevel(int testLevelId, TestLevelDto testLevelDto)
+        {
+            var result = _testLevelService.UpdateTestLevel(testLevelId, testLevelDto);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
     }
 }
