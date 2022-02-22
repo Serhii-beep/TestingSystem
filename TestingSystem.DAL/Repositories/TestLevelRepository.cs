@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using TestingSystem.DAL.Abstract;
 using TestingSystem.DAL.DbContexts;
 using TestingSystem.DAL.Models;
+using System.Linq;
 
 namespace TestingSystem.DAL.Repositories
 {
@@ -21,7 +23,17 @@ namespace TestingSystem.DAL.Repositories
 
         public void DeleteTestLevel(int id)
         {
-            _context.TestLevels.Remove(GetTestLevelById(id));
+            TestLevel testLevel = GetTestLevelById(id);
+            DeleteTestLevel(testLevel);
+        }
+
+        public void DeleteTestLevel(TestLevel testLevel)
+        {
+            if(_context.Entry(testLevel).State == Microsoft.EntityFrameworkCore.EntityState.Detached)
+            {
+                _context.TestLevels.Attach(testLevel);
+            }
+            _context.TestLevels.Remove(testLevel);
         }
 
         public IEnumerable<TestLevel> GetAllTestLevels()
@@ -31,12 +43,16 @@ namespace TestingSystem.DAL.Repositories
 
         public TestLevel GetTestLevelById(int id)
         {
-            return _context.TestLevels.Find(id);
+            return _context.TestLevels.AsNoTracking().FirstOrDefault(tl => tl.Id == id);
         }
 
         public void UpdateTestLevel(TestLevel testLevel)
         {
-            _context.TestLevels.Update(testLevel);
+            if(_context.Entry(testLevel).State == Microsoft.EntityFrameworkCore.EntityState.Detached)
+            {
+                _context.TestLevels.Attach(testLevel);
+            }            
+            _context.Entry(testLevel).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         }
     }
 }

@@ -20,7 +20,17 @@ namespace TestingSystem.DAL.Repositories
 
         public void DeleteTestSet(int id)
         {
-            _context.TestSets.Remove(GetTestSetById(id));
+            TestSet testSet = GetTestSetById(id);
+            DeleteTestSet(testSet);
+        }
+
+        public void DeleteTestSet(TestSet testSet)
+        {
+            if(_context.Entry(testSet).State == Microsoft.EntityFrameworkCore.EntityState.Detached)
+            {
+                _context.TestSets.Attach(testSet);
+            }
+            _context.TestSets.Remove(testSet);
         }
 
         public IEnumerable<TestSet> GetAllTestSets()
@@ -35,7 +45,8 @@ namespace TestingSystem.DAL.Repositories
 
         public void UpdateTestSet(TestSet testSet)
         {
-            _context.TestSets.Update(testSet);
+            _context.TestSets.Attach(testSet);
+            _context.Entry(testSet).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         }
     }
 }

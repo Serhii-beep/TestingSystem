@@ -26,11 +26,11 @@ namespace TestingSystem.PLL.Controllers
         }
 
         [HttpDelete]
-        [Route("delete/testLevelId={testLevelId}")]
+        [Route("delete/{testLevelId}")]
         public ActionResult<EntityOperationResult<bool>> DeleteTestLevel(int testLevelId)
         {
             var result = _testLevelService.DeleteTestLevel(testLevelId);
-            return result.IsSuccess ? NoContent() : BadRequest(result);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost]

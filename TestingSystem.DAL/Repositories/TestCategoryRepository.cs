@@ -21,7 +21,17 @@ namespace TestingSystem.DAL.Repositories
 
         public void DeleteTestCategory(int id)
         {
-            _context.TestCategories.Remove(GetTestCategoryById(id));
+            TestCategory testCategory = GetTestCategoryById(id);
+            DeleteTestCategory(testCategory);
+        }
+
+        public void DeleteTestCategory(TestCategory testCategory)
+        {
+            if(_context.Entry(testCategory).State == Microsoft.EntityFrameworkCore.EntityState.Detached)
+            {
+                _context.TestCategories.Attach(testCategory);
+            }
+            _context.TestCategories.Remove(testCategory);
         }
 
         public IEnumerable<TestCategory> GetAllTestCategories()
@@ -36,7 +46,8 @@ namespace TestingSystem.DAL.Repositories
 
         public void UpdateTestCategory(TestCategory category)
         {
-            _context.TestCategories.Update(category);
+            _context.TestCategories.Attach(category);
+            _context.Entry(category).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         }
     }
 }

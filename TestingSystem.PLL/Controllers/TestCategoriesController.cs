@@ -30,7 +30,7 @@ namespace TestingSystem.PLL.Controllers
         }
 
         [HttpDelete]
-        [Route("delete/testCategoryId={testCategoryId}")]
+        [Route("delete/{testCategoryId}")]
         public ActionResult<EntityOperationResult<bool>> DeleteTestCategory(int testCategoryId)
         {
             var result = _testCategoryService.DeleteCategory(testCategoryId);

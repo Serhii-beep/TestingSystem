@@ -21,7 +21,17 @@ namespace TestingSystem.DAL.Repositories
 
         public void DeleteQuestion(int id)
         {
-            _context.Questions.Remove(GetQuestionById(id));
+            Question question = GetQuestionById(id);
+            DeleteQuestion(question);
+        }
+
+        public void DeleteQuestion(Question question)
+        {
+            if(_context.Entry(question).State == Microsoft.EntityFrameworkCore.EntityState.Detached)
+            {
+                _context.Questions.Attach(question);
+            }
+            _context.Questions.Remove(question);
         }
 
         public IEnumerable<Question> GetAllQuestions()
@@ -36,7 +46,8 @@ namespace TestingSystem.DAL.Repositories
 
         public void UpdateQuestion(Question question)
         {
-            _context.Questions.Update(question);
+            _context.Questions.Attach(question);
+            _context.Entry(question).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         }
     }
 }

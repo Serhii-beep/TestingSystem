@@ -51,7 +51,7 @@ namespace TestingSystem.PLL.Controllers
 
 
         [HttpDelete]
-        [Route("delete/testSetId={testSetId}")]
+        [Route("delete/{testSetId}")]
         public ActionResult<EntityOperationResult<bool>> DeleteTestSet(int testSetId)
         {
             var result = _testSetService.DeleteTestSet(testSetId);
@@ -63,7 +63,7 @@ namespace TestingSystem.PLL.Controllers
         public ActionResult<EntityOperationResult<TestSetDto>> AddTestSet(TestSetDto testSetDto)
         {
             var result = _testSetService.AddTestSet(testSetDto);
-            return result.IsSuccess ? Ok(result) : BadRequest(result); // createdAtAction?
+            return result.IsSuccess ? Ok(result) : BadRequest(result); // createdAtAction?  Same tak
         }
 
         [HttpPut("{testSetId}")]
