@@ -34,13 +34,13 @@ namespace TestingSystem.PLL.Controllers
 
         [HttpPost]
         [Route("register")]
-        public ActionResult Register(string username, string password)
+        public ActionResult Register(string username, string password, string role)
         {
             var user = new UserDto()
             {
                 UserName = username,
                 Password = password,
-                Role = "admin"
+                Role = role
             };
             var result = _userService.AddUser(user);
             return result.IsSuccess ? Ok(result) : BadRequest(result);

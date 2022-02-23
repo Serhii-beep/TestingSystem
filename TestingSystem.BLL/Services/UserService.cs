@@ -56,6 +56,10 @@ namespace TestingSystem.BLL.Services
         {
             using (var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
             {
+                if(UserExists(user.UserName))
+                {
+                    return EntityOperationResult<UserDto>.Failture("User with such username already exists");
+                }
                 unitOfWork.User.AddUser(user.ToModel());
                 try
                 {
@@ -65,7 +69,15 @@ namespace TestingSystem.BLL.Services
                 {
                     return EntityOperationResult<UserDto>.Failture(ex.Message);
                 }
-                return EntityOperationResult<UserDto>.Success(user);
+                return EntityOperationResult<UserDto>.Success(unitOfWork.User.GetUserByUserName(user.UserName).ToDto());
+            }
+        }
+
+        private bool UserExists(string username)
+        {
+            using(var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
+            {
+                return unitOfWork.User.GetUserByUserName(username) != null;
             }
         }
     }

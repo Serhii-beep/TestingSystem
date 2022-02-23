@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TestingSystem.DAL.Abstract;
 using TestingSystem.DAL.DbContexts;
 using TestingSystem.DAL.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace TestingSystem.DAL.Repositories
 {
@@ -30,7 +31,7 @@ namespace TestingSystem.DAL.Repositories
 
         public User GetUserByUserName(string userName)
         {
-            return _context.Users.FirstOrDefault(u => u.UserName == userName);
+            return _context.Users.AsNoTracking().FirstOrDefault(u => u.UserName == userName);
         }
 
         public User GetUserByUserNameAndPassword(string userName, string password)
