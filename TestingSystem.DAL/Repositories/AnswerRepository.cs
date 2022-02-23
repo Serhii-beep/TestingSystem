@@ -2,6 +2,8 @@
 using TestingSystem.DAL.Abstract;
 using TestingSystem.DAL.DbContexts;
 using TestingSystem.DAL.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace TestingSystem.DAL.Repositories
 {
@@ -41,7 +43,7 @@ namespace TestingSystem.DAL.Repositories
 
         public Answer GetAnswerById(int id)
         {
-            return _context.Answers.Find(id);
+            return _context.Answers.AsNoTracking().FirstOrDefault(x => x.Id == id);
         }
 
         public void UpdateAnswer(Answer answer)

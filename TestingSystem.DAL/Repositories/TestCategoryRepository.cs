@@ -2,6 +2,8 @@
 using TestingSystem.DAL.Abstract;
 using TestingSystem.DAL.DbContexts;
 using TestingSystem.DAL.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace TestingSystem.DAL.Repositories
 {
@@ -41,7 +43,7 @@ namespace TestingSystem.DAL.Repositories
 
         public TestCategory GetTestCategoryById(int id)
         {
-            return _context.TestCategories.Find(id);
+            return _context.TestCategories.AsNoTracking().FirstOrDefault(tc => tc.Id == id);
         }
 
         public void UpdateTestCategory(TestCategory category)

@@ -2,6 +2,8 @@
 using TestingSystem.DAL.Abstract;
 using TestingSystem.DAL.DbContexts;
 using TestingSystem.DAL.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace TestingSystem.DAL.Repositories
 {
@@ -40,7 +42,7 @@ namespace TestingSystem.DAL.Repositories
 
         public TestSet GetTestSetById(int id)
         {
-            return _context.TestSets.Find(id);
+            return _context.TestSets.AsNoTracking().FirstOrDefault(ts => ts.Id == id);
         }
 
         public void UpdateTestSet(TestSet testSet)

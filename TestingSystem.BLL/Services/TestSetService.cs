@@ -5,6 +5,7 @@ using TestingSystem.DAL.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+
 namespace TestingSystem.BLL.Services
 {
     public class TestSetService
@@ -107,20 +108,20 @@ namespace TestingSystem.BLL.Services
 
         public EntityOperationResult<TestSetDto> AddTestSet(TestSetDto testSetDto)
         {
-            var result = testSetDto.ToModel();
+            var temp = testSetDto.ToModel();
 
             using (var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
             {
-                if (unitOfWork.TestLevel.GetTestLevelById(result.TestLevelId) == null)
+                if (unitOfWork.TestLevel.GetTestLevelById(temp.TestLevelId) == null)
                 {
                     return EntityOperationResult<TestSetDto>.Failture("No test level with such id");
                 }
-                if (unitOfWork.TestCategory.GetTestCategoryById(result.TestCategoryId) == null)
+                if (unitOfWork.TestCategory.GetTestCategoryById(temp.TestCategoryId) == null)
                 {
                     return EntityOperationResult<TestSetDto>.Failture("No category with such id");
                 }
                 
-                unitOfWork.TestSet.AddTestSet(result);
+                unitOfWork.TestSet.AddTestSet(temp);
 
                 try
                 {
@@ -132,7 +133,7 @@ namespace TestingSystem.BLL.Services
                 }
             }
 
-            return EntityOperationResult<TestSetDto>.Success(testSetDto);
+            return EntityOperationResult<TestSetDto>.Success(temp.toDto());
         }
 
         public EntityOperationResult<TestSetDto> UpdateTestSet(int testSetId, TestSetDto testSetDto)
