@@ -20,7 +20,6 @@ namespace TestingSystem.PLL.Controllers
             _testCategoryService = testCategoryService;
         }
 
-        [Authorize(Roles = "admin")]
         [HttpGet]
         [Route("getAll")]
         public ActionResult<EntityOperationResult<IEnumerable<TestCategoryDto>>> GetAllTestCategories()

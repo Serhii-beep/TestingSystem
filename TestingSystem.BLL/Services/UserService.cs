@@ -46,11 +46,8 @@ namespace TestingSystem.BLL.Services
 
         public string GetEncodedJwtToken(ClaimsIdentity identity)
         {
-            var now = DateTime.UtcNow;
             var jwt = new JwtSecurityToken(
-                notBefore: now,
                 claims: identity.Claims,
-                expires: now.Add(TimeSpan.FromMinutes(AuthOptions.Lifetime)),
                 signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
