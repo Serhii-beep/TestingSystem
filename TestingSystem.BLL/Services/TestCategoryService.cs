@@ -2,6 +2,7 @@
 using TestingSystem.DAL.UnitOfWork;
 using TestingSystem.BLL.Dtos;
 using TestingSystem.BLL.Mappers;
+using TestingSystem.DAL.Models;
 using System;
 
 namespace TestingSystem.BLL.Services
@@ -59,11 +60,12 @@ namespace TestingSystem.BLL.Services
 
         public EntityOperationResult<TestCategoryDto> AddCategory(TestCategoryDto testCategoryDto)
         {
+            TestCategory temp = testCategoryDto.ToModel();
 
             using(var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
             {
 
-                unitOfWork.TestCategory.AddTestCategory(testCategoryDto.ToModel());
+                unitOfWork.TestCategory.AddTestCategory(temp);
 
                 try
                 {
@@ -75,7 +77,7 @@ namespace TestingSystem.BLL.Services
                 }
             }
 
-            return EntityOperationResult<TestCategoryDto>.Success(testCategoryDto);
+            return EntityOperationResult<TestCategoryDto>.Success(temp.toDto());
         }
 
         public EntityOperationResult<TestCategoryDto> UpdateCategory(int testCategoryId, TestCategoryDto testCategoryDto)

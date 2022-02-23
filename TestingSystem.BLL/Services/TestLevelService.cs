@@ -59,12 +59,12 @@ namespace TestingSystem.BLL.Services
 
         public EntityOperationResult<TestLevelDto> AddTestLevel(TestLevelDto testLevelDto)
         {
-            var result = testLevelDto.ToModel();
+            TestLevel temp = testLevelDto.ToModel();
 
             using (var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
             {
 
-                unitOfWork.TestLevel.AddTestLevel(result);
+                unitOfWork.TestLevel.AddTestLevel(temp);
 
                 try
                 {
@@ -76,12 +76,12 @@ namespace TestingSystem.BLL.Services
                 }
             }
 
-            return EntityOperationResult<TestLevelDto>.Success(testLevelDto);
+            return EntityOperationResult<TestLevelDto>.Success(temp.toDto());
         }
 
         public EntityOperationResult<TestLevelDto> UpdateTestLevel(int testLevelId, TestLevelDto testLevelDto)
         {
-
+            
             using (var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
             {
                 if (testLevelId != testLevelDto.Id)

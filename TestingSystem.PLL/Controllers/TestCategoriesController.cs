@@ -34,7 +34,7 @@ namespace TestingSystem.PLL.Controllers
         public ActionResult<EntityOperationResult<bool>> DeleteTestCategory(int testCategoryId)
         {
             var result = _testCategoryService.DeleteCategory(testCategoryId);
-            return result.IsSuccess ? NoContent() : BadRequest(result);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost]

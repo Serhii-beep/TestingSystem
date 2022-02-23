@@ -71,6 +71,7 @@ namespace TestingSystem.BLL.Mappers
             return result;
         }
 
+        #region toDto
         public static QuestionDto ToDto(this Question question)
         {
             return new QuestionDto()
@@ -93,6 +94,37 @@ namespace TestingSystem.BLL.Mappers
             };
         }
 
+        public static TestLevelDto toDto(this TestLevel testLevel)
+        {
+            return new TestLevelDto()
+            {
+                Id = testLevel.Id,
+                DifficultyLevel = testLevel.DifficultyLevel
+            };
+        }
+
+        public static TestCategoryDto toDto(this TestCategory testCategory)
+        {
+            return new TestCategoryDto()
+            {
+                Id = testCategory.Id,
+                Name = testCategory.Name
+            };
+        }
+
+        public static TestSetDto toDto(this TestSet testSet)
+        {
+            return new TestSetDto()
+            {
+                Id = testSet.Id,
+                TestCategoryId = testSet.TestCategoryId,
+                TestLevelId = testSet.TestLevelId,
+                Description = testSet.Description
+            };
+        }
+        #endregion
+
+        #region toModel
         public static User ToModel(this UserDto userDto)
         {
             return new User()
@@ -131,5 +163,6 @@ namespace TestingSystem.BLL.Mappers
                 DifficultyLevel = testLevelDto.DifficultyLevel
             };
         }
+        #endregion
     }
 }

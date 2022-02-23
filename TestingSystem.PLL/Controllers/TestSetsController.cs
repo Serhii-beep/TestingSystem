@@ -55,7 +55,7 @@ namespace TestingSystem.PLL.Controllers
         public ActionResult<EntityOperationResult<bool>> DeleteTestSet(int testSetId)
         {
             var result = _testSetService.DeleteTestSet(testSetId);
-            return result.IsSuccess ? NoContent() : BadRequest(result);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
         [HttpPost]

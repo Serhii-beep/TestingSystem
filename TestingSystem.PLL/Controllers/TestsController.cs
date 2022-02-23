@@ -37,7 +37,7 @@ namespace TestingSystem.PLL.Controllers
         public ActionResult<EntityOperationResult<bool>> DeleteTest(int testId)
         {
             var result = _testService.DeleteTest(testId);
-            return result.IsSuccess ? NoContent() : BadRequest(result);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }
 }
