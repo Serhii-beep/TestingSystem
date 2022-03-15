@@ -31,6 +31,17 @@ namespace TestingSystem.BLL.Services
             return EntityOperationResult<List<TestLevelDto>>.Success(result);
         }
 
+        public EntityOperationResult<TestLevelDto> GetLevelById(int id)
+        {
+            TestLevelDto result = new TestLevelDto();
+            using (var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
+            {
+                result = unitOfWork.TestLevel.GetTestLevelById(id)?.toDto();
+            }
+            return result == null ? EntityOperationResult<TestLevelDto>.Failture("No test level with such Id") :
+                EntityOperationResult<TestLevelDto>.Success(result);
+        }
+
         public EntityOperationResult<bool> DeleteTestLevel(int testLevelId)
         {
             var result = false;

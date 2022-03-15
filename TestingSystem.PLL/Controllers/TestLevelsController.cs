@@ -25,6 +25,14 @@ namespace TestingSystem.PLL.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getById/{id}")]
+        public ActionResult<EntityOperationResult<TestLevelDto>> GetTestLevelById(int id)
+        {
+            var result = _testLevelService.GetLevelById(id);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
         [HttpDelete]
         [Route("delete/{testLevelId}")]
         public ActionResult<EntityOperationResult<bool>> DeleteTestLevel(int testLevelId)

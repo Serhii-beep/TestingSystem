@@ -29,7 +29,21 @@ namespace TestingSystem.PLL.Controllers
                 return BadRequest(EntityOperationResult<ClaimsIdentity>.Failture("No user with such login or password"));
             }
             var encodedJwt = _userService.GetEncodedJwtToken(identity);
-            return Ok(EntityOperationResult<string>.Success(encodedJwt));
+            string role = "";
+            foreach(var claim in identity.Claims)
+            {
+                if(claim.Type == ClaimsIdentity.DefaultRoleClaimType)
+                {
+                    role = claim.Value;
+                }
+            }
+            var response = new
+            {
+                Token = encodedJwt,
+                Username = username,
+                Role = role
+            };
+            return Ok(response);
         }
 
         [HttpPost]

@@ -60,6 +60,18 @@ namespace TestingSystem.BLL.Services
                 {
                     return EntityOperationResult<UserDto>.Failture("User with such username already exists");
                 }
+                if(string.IsNullOrEmpty(user.UserName))
+                {
+                    return EntityOperationResult<UserDto>.Failture("Username must not be empty");
+                }
+                if(string.IsNullOrEmpty(user.Password))
+                {
+                    return EntityOperationResult<UserDto>.Failture("Password must not be empty");
+                }
+                if(user.Password.Length <= 5)
+                {
+                    return EntityOperationResult<UserDto>.Failture("Password length must be greater than 5");
+                }
                 unitOfWork.User.AddUser(user.ToModel());
                 try
                 {

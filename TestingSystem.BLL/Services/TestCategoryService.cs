@@ -32,6 +32,17 @@ namespace TestingSystem.BLL.Services
             return EntityOperationResult<List<TestCategoryDto>>.Success(result);
         }
 
+        public EntityOperationResult<TestCategoryDto> GetCategoryById(int id)
+        {
+            TestCategoryDto result = new TestCategoryDto();
+            using(var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
+            {
+                result = unitOfWork.TestCategory.GetTestCategoryById(id)?.toDto();
+            }
+            return result == null ? EntityOperationResult<TestCategoryDto>.Failture("No test category with such Id") :
+                EntityOperationResult<TestCategoryDto>.Success(result);
+        }
+
         public EntityOperationResult<bool> DeleteCategory(int testCategoryId)
         {
             bool result = false;

@@ -28,6 +28,14 @@ namespace TestingSystem.PLL.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [HttpGet]
+        [Route("getById/{id}")]
+        public ActionResult<EntityOperationResult<TestCategoryDto>> GetTestCategoryById(int id)
+        {
+            var result = _testCategoryService.GetCategoryById(id);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
         [HttpDelete]
         [Route("delete/{testCategoryId}")]
         public ActionResult<EntityOperationResult<bool>> DeleteTestCategory(int testCategoryId)
