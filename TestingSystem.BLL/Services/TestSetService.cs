@@ -32,6 +32,17 @@ namespace TestingSystem.BLL.Services
             return EntityOperationResult<List<TestSetDto>>.Success(result);
         }
 
+        public EntityOperationResult<TestSetDto> GetTestSetById(int id)
+        {
+            TestSetDto result = new TestSetDto();
+            using(var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
+            {
+                result = unitOfWork.TestSet.GetTestSetById(id).toDto();
+            }
+            return result == null ? EntityOperationResult<TestSetDto>.Failture("No test set with such Id")
+                : EntityOperationResult<TestSetDto>.Success(result);
+        }
+
         public EntityOperationResult<List<TestSetDto>> GetTestSetsByCategory(int categoryId)
         {
             List<TestSetDto> result = new List<TestSetDto>();

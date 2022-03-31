@@ -62,6 +62,24 @@ namespace TestingSystem.BLL.Services
 
             return EntityOperationResult<bool>.Success(result);
         }
+
+        public EntityOperationResult<TestCreateDto> AddTest(TestCreateDto test)
+        {
+            var testModel = test.ToModel();
+            using(var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
+            {
+                unitOfWork.Test.AddTest(testModel);
+                try
+                {
+                    unitOfWork.SaveChanges();
+                }
+                catch(Exception ex)
+                {
+                    return EntityOperationResult<TestCreateDto>.Failture(ex.Message);
+                }
+            }
+            return EntityOperationResult<TestCreateDto>.Success(testModel.ToDto());
+        }
         
         public EntityOperationResult<bool> CheckAnswer(int testId, int answerId)
         {
@@ -81,12 +99,13 @@ namespace TestingSystem.BLL.Services
             return EntityOperationResult<bool>.Success(result);
         }
 
+
         private void JoinTestWithQuestion(TestReadDto test)
         {
             using(var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
             {
                 var questions = unitOfWork.Question.GetAllQuestions();
-                test.Question = questions.FirstOrDefault(q => q.TestId == test.Id).ToDto();
+                test.Question = questions.FirstOrDefault(q => q.TestId == test.Id)?.ToDto();
             }
         }
 

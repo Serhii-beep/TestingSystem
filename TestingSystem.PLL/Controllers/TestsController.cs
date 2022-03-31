@@ -32,11 +32,20 @@ namespace TestingSystem.PLL.Controllers
             var result = _testService.CheckAnswer(testId, answerId);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
+
         [HttpDelete]
         [Route("delete/testId={testId}")]
         public ActionResult<EntityOperationResult<bool>> DeleteTest(int testId)
         {
             var result = _testService.DeleteTest(testId);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost]
+        [Route("addTest")]
+        public ActionResult<EntityOperationResult<TestCreateDto>> AddTest(TestCreateDto test)
+        {
+            var result = _testService.AddTest(test);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
     }

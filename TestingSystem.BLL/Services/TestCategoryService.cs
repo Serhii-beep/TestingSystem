@@ -4,6 +4,7 @@ using TestingSystem.BLL.Dtos;
 using TestingSystem.BLL.Mappers;
 using TestingSystem.DAL.Models;
 using System;
+using System.Linq;
 
 namespace TestingSystem.BLL.Services
 {
@@ -75,7 +76,10 @@ namespace TestingSystem.BLL.Services
 
             using(var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
             {
-
+                if(unitOfWork.TestCategory.GetAllTestCategories().FirstOrDefault(c => c.Name == temp.Name) != null)
+                {
+                    return EntityOperationResult<TestCategoryDto>.Failture("Category with such name already exists");
+                }
                 unitOfWork.TestCategory.AddTestCategory(temp);
 
                 try

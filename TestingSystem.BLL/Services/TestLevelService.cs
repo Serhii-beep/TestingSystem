@@ -4,6 +4,7 @@ using TestingSystem.BLL.Mappers;
 using TestingSystem.DAL.UnitOfWork;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace TestingSystem.BLL.Services
 {
@@ -74,7 +75,10 @@ namespace TestingSystem.BLL.Services
 
             using (var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
             {
-
+                if(unitOfWork.TestLevel.GetAllTestLevels().FirstOrDefault(tl => tl.DifficultyLevel == temp.DifficultyLevel) != null)
+                {
+                    return EntityOperationResult<TestLevelDto>.Failture("Such test level already exists");
+                }
                 unitOfWork.TestLevel.AddTestLevel(temp);
 
                 try

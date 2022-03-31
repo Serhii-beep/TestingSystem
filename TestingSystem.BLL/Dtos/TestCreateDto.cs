@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace TestingSystem.BLL.Dtos
 {
-    public class TestReadDto
+    public class TestCreateDto
     {
         public int Id { get; set; }
         public int TestSetId { get; set; }
         public int CorrectAnswerId { get; set; }
-        public QuestionDto Question { get; set; }
-        public List<AnswerDto> Answers { get; set; }
     }
 }

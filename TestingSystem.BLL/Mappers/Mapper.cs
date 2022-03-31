@@ -16,6 +16,16 @@ namespace TestingSystem.BLL.Mappers
             return result;
         }
 
+        public static List<TestDto> ToDtoRange(this IEnumerable<TestReadDto> tests)
+        {
+            List<TestDto> result = new List<TestDto>();
+            foreach(var test in tests)
+            {
+                result.Add(test.ToDto());
+            }
+            return result;
+        }
+
         public static List<TestLevelDto> ToDtoRange(this IEnumerable<TestLevel> testLevelsEntity)
         {
             List<TestLevelDto> result = new List<TestLevelDto>();
@@ -50,6 +60,7 @@ namespace TestingSystem.BLL.Mappers
                 result.Add(new TestReadDto()
                 {
                     Id = test.Id,
+                    CorrectAnswerId = test.CorrectAnswerId,
                     TestSetId = test.TestSetId
                 });
             }
@@ -80,6 +91,28 @@ namespace TestingSystem.BLL.Mappers
                 TestId = question.TestId,
                 QuestionText = question.QuestionText,
                 Points = question.Points
+            };
+        }
+
+        public static TestDto ToDto(this TestReadDto test)
+        {
+            return new TestDto()
+            {
+                Id = test.Id,
+                TestSetId = test.TestSetId,
+                CorrectAnswerId = test.CorrectAnswerId,
+                Question = test.Question,
+                Answers = test.Answers
+            };
+        }
+
+        public static TestCreateDto ToDto(this Test test)
+        {
+            return new TestCreateDto()
+            { 
+                Id = test.Id,
+                CorrectAnswerId = test.CorrectAnswerId,
+                TestSetId = test.TestSetId
             };
         }
 
@@ -161,6 +194,37 @@ namespace TestingSystem.BLL.Mappers
             {
                 Id = testLevelDto.Id,
                 DifficultyLevel = testLevelDto.DifficultyLevel
+            };
+        }
+
+        public static Answer ToModel(this AnswerDto answerDto)
+        {
+            return new Answer()
+            {
+                Id = answerDto.Id,
+                AnswerText = answerDto.AnswerText,
+                TestId = answerDto.TestId
+            };
+        }
+
+        public static Question ToModel(this QuestionDto questionDto)
+        {
+            return new Question()
+            {
+                Id = questionDto.Id,
+                QuestionText = questionDto.QuestionText,
+                Points = questionDto.Points,
+                TestId = questionDto.TestId
+            };
+        }
+
+        public static Test ToModel(this TestCreateDto testDto)
+        {
+            return new Test()
+            {
+                Id = testDto.Id,
+                CorrectAnswerId = testDto.CorrectAnswerId,
+                TestSetId = testDto.TestSetId
             };
         }
         #endregion

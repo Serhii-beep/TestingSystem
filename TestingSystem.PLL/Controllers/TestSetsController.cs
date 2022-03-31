@@ -26,6 +26,14 @@ namespace TestingSystem.PLL.Controllers
         }
 
         [HttpGet]
+        [Route("getById/{id}")]
+        public ActionResult<EntityOperationResult<TestSetDto>> GetTestSetById(int id)
+        {
+            var result = _testSetService.GetTestSetById(id);
+            return result.IsSuccess ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpGet]
         [Route("getByCategory/{categoryId}")]
         public ActionResult<EntityOperationResult<IEnumerable<TestSetDto>>> GetTestSetsByCategory(int categoryId)
         {
@@ -66,7 +74,7 @@ namespace TestingSystem.PLL.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result); // createdAtAction?  Same tak
         }
 
-        [HttpPut("{testSetId}")]
+        [HttpPut("put/{testSetId}")]
         public ActionResult<EntityOperationResult<TestSetDto>> UpdateTestSet(int testSetId, TestSetDto testSetDto)
         {
             var result = _testSetService.UpdateTestSet(testSetId, testSetDto);
