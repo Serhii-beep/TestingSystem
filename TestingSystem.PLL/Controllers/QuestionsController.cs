@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TestingSystem.BLL;
 using TestingSystem.BLL.Dtos;
@@ -17,6 +18,7 @@ namespace TestingSystem.PLL.Controllers
             _questionService = questionService;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [Route("addQuestion")]
         public ActionResult<EntityOperationResult<QuestionDto>> AddQuestion(QuestionDto question)

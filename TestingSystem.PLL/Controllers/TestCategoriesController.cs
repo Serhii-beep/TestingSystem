@@ -36,6 +36,7 @@ namespace TestingSystem.PLL.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete]
         [Route("delete/{testCategoryId}")]
         public ActionResult<EntityOperationResult<bool>> DeleteTestCategory(int testCategoryId)
@@ -46,12 +47,14 @@ namespace TestingSystem.PLL.Controllers
 
         [HttpPost]
         [Route("post")]
+        [Authorize(Roles = "admin")]
         public ActionResult<EntityOperationResult<TestCategoryDto>> AddTestCategory(TestCategoryDto testCategoryDto)
         {
             var result = _testCategoryService.AddCategory(testCategoryDto);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut]
         [Route("{testCategoryId}")]
         public ActionResult<EntityOperationResult<TestCategoryDto>> UpdateTestCategory(int testCategoryId, TestCategoryDto testCategoryDto)

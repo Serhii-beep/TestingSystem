@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TestingSystem.BLL;
 using TestingSystem.BLL.Dtos;
@@ -17,6 +18,7 @@ namespace TestingSystem.PLL.Controllers
             _answerService = answerService;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [Route("addAnswer")]
         public ActionResult<EntityOperationResult<AnswerDto>> AddAnswer(AnswerDto answer)
@@ -25,6 +27,7 @@ namespace TestingSystem.PLL.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete]
         [Route("deleteAnswer/{answerId}")]
         public ActionResult<EntityOperationResult<bool>> DeleteAnswer(int answerId)

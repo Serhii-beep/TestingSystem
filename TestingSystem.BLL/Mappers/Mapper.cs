@@ -16,16 +16,6 @@ namespace TestingSystem.BLL.Mappers
             return result;
         }
 
-        public static List<TestDto> ToDtoRange(this IEnumerable<TestReadDto> tests)
-        {
-            List<TestDto> result = new List<TestDto>();
-            foreach(var test in tests)
-            {
-                result.Add(test.ToDto());
-            }
-            return result;
-        }
-
         public static List<TestLevelDto> ToDtoRange(this IEnumerable<TestLevel> testLevelsEntity)
         {
             List<TestLevelDto> result = new List<TestLevelDto>();
@@ -52,12 +42,12 @@ namespace TestingSystem.BLL.Mappers
             return result;
         }
 
-        public static List<TestReadDto> ToDtoRange(this IEnumerable<Test> testsEntity)
+        public static List<TestDto> ToDtoRange(this IEnumerable<Test> testsEntity)
         {
-            List<TestReadDto> result = new List<TestReadDto>();
+            List<TestDto> result = new List<TestDto>();
             foreach (var test in testsEntity)
             {
-                result.Add(new TestReadDto()
+                result.Add(new TestDto()
                 {
                     Id = test.Id,
                     CorrectAnswerId = test.CorrectAnswerId,
@@ -91,18 +81,6 @@ namespace TestingSystem.BLL.Mappers
                 TestId = question.TestId,
                 QuestionText = question.QuestionText,
                 Points = question.Points
-            };
-        }
-
-        public static TestDto ToDto(this TestReadDto test)
-        {
-            return new TestDto()
-            {
-                Id = test.Id,
-                TestSetId = test.TestSetId,
-                CorrectAnswerId = test.CorrectAnswerId,
-                Question = test.Question,
-                Answers = test.Answers
             };
         }
 
@@ -225,6 +203,16 @@ namespace TestingSystem.BLL.Mappers
                 Id = testDto.Id,
                 CorrectAnswerId = testDto.CorrectAnswerId,
                 TestSetId = testDto.TestSetId
+            };
+        }
+
+        public static Test ToModel(this TestDto testDto)
+        {
+            return new Test()
+            {
+                Id = testDto.Id,
+                TestSetId = testDto.TestSetId,
+                CorrectAnswerId = testDto.CorrectAnswerId
             };
         }
         #endregion

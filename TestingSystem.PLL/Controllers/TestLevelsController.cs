@@ -3,6 +3,7 @@ using TestingSystem.BLL.Services;
 using System.Collections.Generic;
 using TestingSystem.BLL;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TestingSystem.PLL.Controllers
 {
@@ -33,6 +34,7 @@ namespace TestingSystem.PLL.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete]
         [Route("delete/{testLevelId}")]
         public ActionResult<EntityOperationResult<bool>> DeleteTestLevel(int testLevelId)
@@ -41,6 +43,7 @@ namespace TestingSystem.PLL.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [Route("post")]
         public ActionResult<EntityOperationResult<TestLevelDto>> AddTestLevel(TestLevelDto testLevelDto)
@@ -49,6 +52,7 @@ namespace TestingSystem.PLL.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut]
         [Route("put/{testLevelId}")]
         public ActionResult<EntityOperationResult<TestLevelDto>> UpdateTestLevel(int testLevelId, TestLevelDto testLevelDto)

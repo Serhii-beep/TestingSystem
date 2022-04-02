@@ -3,6 +3,7 @@ using TestingSystem.BLL.Services;
 using TestingSystem.BLL;
 using System.Collections.Generic;
 using TestingSystem.BLL.Dtos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TestingSystem.PLL.Controllers
 {
@@ -19,7 +20,7 @@ namespace TestingSystem.PLL.Controllers
 
         [HttpGet]
         [Route("getTests/{testSetId}")]
-        public ActionResult<EntityOperationResult<List<TestReadDto>>> GetTests(int testSetId)
+        public ActionResult<EntityOperationResult<List<TestDto>>> GetTests(int testSetId)
         {
             var result = _testService.GetTests(testSetId);
             return result.IsSuccess ? Ok(result) : BadRequest(result);
@@ -33,6 +34,7 @@ namespace TestingSystem.PLL.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete]
         [Route("delete/testId={testId}")]
         public ActionResult<EntityOperationResult<bool>> DeleteTest(int testId)
@@ -41,6 +43,7 @@ namespace TestingSystem.PLL.Controllers
             return result.IsSuccess ? Ok(result) : BadRequest(result);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [Route("addTest")]
         public ActionResult<EntityOperationResult<TestCreateDto>> AddTest(TestCreateDto test)

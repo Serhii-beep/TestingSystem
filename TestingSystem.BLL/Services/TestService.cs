@@ -21,20 +21,20 @@ namespace TestingSystem.BLL.Services
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
-        public EntityOperationResult<List<TestReadDto>> GetTests(int testSetId)
+        public EntityOperationResult<List<TestDto>> GetTests(int testSetId)
         {
-            List<TestReadDto> result = new List<TestReadDto>();
+            List<TestDto> result = new List<TestDto>();
             using(var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
             {
                 if(unitOfWork.TestSet.GetTestSetById(testSetId) == null)
                 {
-                    return EntityOperationResult<List<TestReadDto>>.Failture("No test set with such Id");
+                    return EntityOperationResult<List<TestDto>>.Failture("No test set with such Id");
                 }
                 result = unitOfWork.Test.GetAllTests().Where(t => t.TestSetId == testSetId).ToDtoRange();
                 JoinTestWithQuestion(result);
                 JoinTestWithAnswers(result);
             }
-            return EntityOperationResult<List<TestReadDto>>.Success(result);
+            return EntityOperationResult<List<TestDto>>.Success(result);
         }
 
         public EntityOperationResult<bool> DeleteTest(int testId)
@@ -100,7 +100,7 @@ namespace TestingSystem.BLL.Services
         }
 
 
-        private void JoinTestWithQuestion(TestReadDto test)
+        private void JoinTestWithQuestion(TestDto test)
         {
             using(var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
             {
@@ -109,7 +109,7 @@ namespace TestingSystem.BLL.Services
             }
         }
 
-        private void JoinTestWithQuestion(IEnumerable<TestReadDto> tests)
+        private void JoinTestWithQuestion(IEnumerable<TestDto> tests)
         {
             foreach(var test in tests)
             {
@@ -117,7 +117,7 @@ namespace TestingSystem.BLL.Services
             }
         }
 
-        private void JoinTestWithAnswers(TestReadDto test)
+        private void JoinTestWithAnswers(TestDto test)
         {
             using(var unitOfWork = _unitOfWorkFactory.CreateUnitOfWork())
             {
@@ -126,7 +126,7 @@ namespace TestingSystem.BLL.Services
             }
         }
 
-        private void JoinTestWithAnswers(List<TestReadDto> tests)
+        private void JoinTestWithAnswers(List<TestDto> tests)
         {
             foreach(var test in tests)
             {
